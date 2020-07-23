@@ -1,0 +1,6 @@
+1 - npm init
+2 - criar o index js
+3 - Instalar o express - $ npm install express --save
+4 -npm install -g nodemon
+5 - Sequelize ORM - npm install --save sequelize
+6 - Para o Sequelize funcionar com MYSQL = npm install --save mysql2
