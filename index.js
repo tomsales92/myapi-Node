@@ -17,14 +17,27 @@ app.get('/', (request, response)=>{
   return response.json({message: 'Chegamos Aqui'});
 });
 
-app.get("/tasks", (req, res) => {
+app.post('/tasks', (request, response)=>{
+    const {name, status} = request.body;
+    Task.create({
+        name: name,
+        status: status
+    }).then(()=>{
+        return response.json({message: 'Deu certo'});
+    })
+  });
+
+app.get("/tasks", (request, response) => {
   Task.findAll({
       raw: true,
       order: [
           ['id', 'DESC']]
   }).then(tasks => {
-      res.json({"tasks": tasks})
+      response.json({"tasks": tasks})
   })
-})
+});
+
+
+
 
 app.listen(3333, ()=>{console.log('Servidor Ok')})
