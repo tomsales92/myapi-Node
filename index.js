@@ -3,6 +3,7 @@ const app = express();
 app.use(express.json());
 const connection = require('./database/connection');
 const Task = require('./Models/task.modal');
+const { response } = require('express');
 
 connection
     .authenticate()
@@ -23,7 +24,7 @@ app.post('/tasks', (request, response)=>{
         name: name,
         status: status
     }).then(()=>{
-        return response.json({message: 'Deu certo'});
+        return response.json({message: 'Task successfully created'});
     })
   });
 
@@ -36,6 +37,32 @@ app.get("/tasks", (request, response) => {
       response.json({"tasks": tasks})
   })
 });
+
+app.put('/tasks/edit/:id', (request, response)=>{
+  const{id, name, status} = request.params;
+  
+  Task.update(request.body, {
+    where: { id: id }
+  })
+    .then(()=>{
+        return response.json({message: 'task updated successfully'});
+    })
+})
+
+app.delete('/task/delete/:id', (request, response)=>{
+    const {id} = request.params;
+            Task.destroy({
+                where: {
+                    id: id
+                }
+            }).then(()=>{
+                return response.json({message: 'Task successfully deleted'});
+            })
+            .catch((msgErro) => {
+                console.log(msgErro);
+            })
+   
+})
 
 
 
