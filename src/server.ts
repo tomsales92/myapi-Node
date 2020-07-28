@@ -1,16 +1,15 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 app.use(express.json());
 const connection = require('./database/connection');
 const Task = require('./Models/task.modal');
-const { response } = require('express');
 
 connection
     .authenticate()
     .then(() => {
         console.log('Conexao feita com o banco de dados!')
     })
-    .catch((msgErro) => {
+    .catch((msgErro:any) => {
         console.log(msgErro);
     })
 
@@ -33,7 +32,7 @@ app.get("/tasks", (request, response) => {
       raw: true,
       order: [
           ['id', 'DESC']]
-  }).then(tasks => {
+  }).then((tasks: any) => {
       response.json({"tasks": tasks})
   })
 });
@@ -58,7 +57,7 @@ app.delete('/task/delete/:id', (request, response)=>{
             }).then(()=>{
                 return response.json({message: 'Task successfully deleted'});
             })
-            .catch((msgErro) => {
+            .catch((msgErro: any) => {
                 console.log(msgErro);
             })
    
